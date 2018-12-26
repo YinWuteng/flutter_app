@@ -1,3 +1,5 @@
+//数据结构，
+
 enum BuildingType { theater, restaurant }
 
 class Building {

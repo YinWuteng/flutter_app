@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Building.dart';
+import 'package:flutter_app/listView/Building.dart';
 
 //定义回调接口
 typedef OnItemClickListener = void Function(int position);
 
+
+//定义每一行的布局显示及响应事件监听
 class ItemView extends StatelessWidget {
   final int position;
   final Building building;
@@ -48,6 +50,7 @@ class ItemView extends StatelessWidget {
   }
 }
 
+//listView ，
 class BuildingListView extends StatelessWidget {
   final List<Building> buildings;
   final OnItemClickListener listener;

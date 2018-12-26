@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 
-void main() => runApp(new TestApp());
+void main() => runApp(new PageSwitchApp());
 
-class TestApp extends StatelessWidget {
+//页面切换及显示返回参数
+class PageSwitchApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -31,7 +33,7 @@ class _FirstScreenState extends State<FirstScreen> {
             child: Text('First screen'),
             onPressed: () async {
               var msg = await Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => SecondScreen()),);
+                context, MaterialPageRoute(builder: (_) => SecondScreen()),);
               debugPrint('msg=$msg');
             }),
       ),
