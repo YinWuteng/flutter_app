@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ListVioew Demo',
+      title: 'ListView Demo',
       home: Scaffold(
         appBar: AppBar(
           title: Text('Material'),
@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _ipAddress = 'Unknown';
+
 
   _getIPAddress() async {
     var url = 'https://httpbin.org/ip';
