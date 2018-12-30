@@ -4,8 +4,8 @@
 //
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/listView/Building.dart';
-import 'package:flutter_app/listView/ItemView.dart';
+import 'package:flutter_app/listView/building.dart';
+import 'package:flutter_app/listView/itemview.dart';
 
 void main() => runApp(new ListViewApp());
 

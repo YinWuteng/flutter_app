@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/listView/Building.dart';
+import 'package:flutter_app/listView/building.dart';
 
 //定义回调接口
 typedef OnItemClickListener = void Function(int position);
