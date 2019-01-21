@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'data.dart';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(UserApp());
@@ -12,78 +12,101 @@ class UserApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Json',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Json'),
+      home: MyApp(),
+    );
+  }
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  User user;
+
+  void getUserInfo(String userName) {
+    http.get("https://api.github.com/users/$userName").then((response) {
+      setState(() {
+        final responseJson = json.decode(response.body);
+        user = new User.fromJson(responseJson);
+        print(user.avatar_url);
+      });
+    }).catchError((error) {
+      print(error.toString());
+    }).whenComplete(() {
+      print('请求完成');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    TextEditingController controller = new TextEditingController();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('网络操作'),
+      ),
+      body: new SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            new Container(
+              child: Image.network(user != null
+                  ? user.avatar_url
+                  : "https://avatars1.githubusercontent.com/u/6630762?v=4"),
+              width: 50.0,
+              height: 50.0,
+            ),
+            new ListTile(
+              leading: Icon(Icons.person),
+              title: Text("name:" + (user != null &&user.name!=null ? user.name : "暂无")),
+            ),
+            new ListTile(
+              leading: Icon(Icons.location_city),
+              title: Text("location:" + (user != null &&user.location!=null? user.location : "暂无")),
+            ),
+            new ListTile(
+                leading: Icon(Icons.web),
+                title: Text("blog:" + (user != null &&user.blog!=null? user.blog : "暂无"))),
+            new ListTile(
+              leading: Icon(Icons.http),
+              title: Text("html_url:" + (user != null&&user.html_url!=null ? user.html_url : "暂无")),
+            ),
+            new TextField(
+              decoration: InputDecoration(labelText: "请输入你的github用户名"),
+              controller: controller,
+            ),
+            RaisedButton(
+              onPressed: () {
+                getUserInfo(controller.text.toString());
+              },
+              child: Text("Get请求"),
+            ),
+          ],
         ),
-        body: UserWidget(),
       ),
     );
   }
 }
 
-class UserWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _UserWidgetState();
+class User {
+  final String name;
+  final String location;
+  final String blog;
+  final String avatar_url;
+  final String html_url;
+
+  User({this.name, this.location, this.blog, this.avatar_url, this.html_url});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return new User(
+        name: json['name'],
+        location: json['location'],
+        blog: json['blog'],
+        avatar_url: json['avatar_url'],
+        html_url: json['html_url']);
   }
 }
-
-class _UserWidgetState extends State<UserWidget> {
-  String _name;
-  var _email;
-
-//  String path = 'http://www.wanandroid.com/tools/mockapi/2008/user';
-
-  _getUserData() {
-//    Dio dio = new Dio();
-//    Response response;
-//    response = await dio.get(path);
-    //json字符数组
-//    String jsonStr = '[{"name":"Jack"},{"name":"Rose"}]';
-//    //将json字符串转为Dart对象(此处是List)
-//    List items = json.decode(jsonStr);
-//    _name = items[0]["name"];
-    //json字符串
-    String result = '{"name":"Yin Wu Teng ","email":"john@example"}';
-//
-//    Map<String, dynamic> user = json.decode(result);
-//    _name = user['name'];
-//    _email = user['email'];
-//    Map userMap = json.decode(data);
-//    var user = User.fromJson(userMap);
-//    _name = user.name;
-//    _email = user.email;
-    // Map<String,dynamic> map=json.decode(data);
-     Data data=Data.fromJson(json.decode(result));
-     _name=data.name;
-     _email=data.email;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _getUserData();
-    // TODO: implement build
-    return Column(
-      children: <Widget>[Text(_name), Text(_email)],
-    );
-  }
-}
-
-//class User {
-//  final String name;
-//  final String email;
-//
-//  User(this.name, this.email);
-//
-//  User.fromJson(Map<String, dynamic> json)
-//      : name = json['name'],
-//        email = json['email'];
-//
-//  Map<String, dynamic> toJson() => <String, dynamic>{
-//        'name': name,
-//        'email': email,
-//      };
-//}
